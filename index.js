@@ -28,12 +28,15 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+      Counter 1 is using closure to make a function you can continue to use. Counter 2 is just a normal function.
+
   2. Which of the two uses a closure? How can you tell?
+      Counter 1 is using a closure, because it is returning a function inside of another function.
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
-*/
+      Counter 1 would be better if you want stored values and access to the counter function with multiple variables. Counter 2 would be better if you wanted a simple counter with no memory.
+*/    
 
 // counter1 code
 function counterMaker() {
@@ -61,10 +64,9 @@ Use the inning function below to do the following:
   For example: invoking inning() should return a numerical score value of 0, 1, or 2
 */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+  let points = Math.floor(Math.random() * 3);
+  return points;
 }
 
 /* Task 3: finalScore()
@@ -80,10 +82,13 @@ For example: invoking finalScore(inning, 9) might return this object:
 }
 */ 
 
-function finalScore(/*code Here*/){
-
-  /*Code Here*/
-
+function finalScore(inning, numInning){
+  let finalScore = {Away: 0, Home: 0};
+  for(let i = 1; i < numInning; i++){
+    finalScore.home += inning();
+    finalScore.away += inning();
+  }
+  return finalScore;
 }
 
 /* Task 4: 
@@ -91,8 +96,15 @@ function finalScore(/*code Here*/){
 // the function should take the inning function as an argument 
 // it should return an object with with a score for home and a score for away that that populates from invoking the inning callback. */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+let inningH = inning();
+let inningA = inning();
+  // eslint-disable-next-line no-unused-vars
+  function getInningScore(inning) {
+  // eslint-disable-next-line no-func-assign
+  getInningScore = {Away: 0, Home: 0};
+  getInningScore.Home += inningH;
+  getInningScore.Away += inningA;
+  return getInningScore;
 }
 /* Task 5: scoreboard()
 Use the scoreboard function below to do the following:
@@ -136,13 +148,40 @@ Use the scoreboard function below to do the following:
   "This game will require extra innings: Away 12 - Home 12"
 ]  
   */
-
-
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+ function inningNum(num){
+  let inn = 1
+ for(let i = 1; i < num; inn++){
+   return inn * num;
+ }
+}
+function getInScore(){
+  let inningScore = 0;
+  return function(){
+    return inningScore += inning();
+  }
+  
 }
 
+// eslint-disable-next-line no-unused-vars
+const inNum = inningNum();
+const home = getInScore();
+const away = getInScore();
+function scoreboard(getInScore, inNum) {
+  let gameScore = [];
+  gameScore.push(getInScore);
+  for(let i = 0; i < inNum; i++){
+    if(inNum <= 9){
+      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}`)
+    }else if (inNum > 9 && home === away){
+      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}, This game will require more Innings`)
+    }else if(inNum > 9 && home > away || home < away){
+      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}, Final Score `)
 
+    }
+  }return gameScore;
+}
+
+console.log(scoreboard(getInningScore, 10));
 
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
