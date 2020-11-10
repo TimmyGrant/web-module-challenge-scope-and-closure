@@ -66,8 +66,8 @@ Use the inning function below to do the following:
 
 function inning(){
   let points = Math.floor(Math.random() * 3);
-  return points;
-}
+  return points;  
+  }
 
 /* Task 3: finalScore()
 Use the finalScore function below to do the following:
@@ -82,30 +82,31 @@ For example: invoking finalScore(inning, 9) might return this object:
 }
 */ 
 
-function finalScore(inning, numInning){
+function finalScore(inningCB, numInning){
   let finalScore = {Away: 0, Home: 0};
   for(let i = 1; i < numInning; i++){
-    finalScore.home += inning();
-    finalScore.away += inning();
+    finalScore.Home += inning();
+    finalScore.Away += inning();
   }
   return finalScore;
 }
-
 /* Task 4: 
 // create a function called getInningScore 
 // the function should take the inning function as an argument 
 // it should return an object with with a score for home and a score for away that that populates from invoking the inning callback. */
 
-let inningH = inning();
-let inningA = inning();
+// let inningH = inning();
+// let inningA = inning();
   // eslint-disable-next-line no-unused-vars
-  function getInningScore(inning) {
-  // eslint-disable-next-line no-func-assign
-  getInningScore = {Away: 0, Home: 0};
-  getInningScore.Home += inningH;
-  getInningScore.Away += inningA;
-  return getInningScore;
-}
+  function getInningScore(inningCB) {
+    // eslint-disable-next-line no-func-assign
+    let getInScore = {Away: 0, Home: 0};
+    getInningScore.Home += inning();
+    getInningScore.Away += inning();
+    return getInScore;
+  }
+  
+  // console.log(getInningScore(inning));
 /* Task 5: scoreboard()
 Use the scoreboard function below to do the following:
   1. Receive a callback function, that you create, called `getInningScore`
@@ -154,35 +155,36 @@ Use the scoreboard function below to do the following:
    return inn * num;
  }
 }
-function getInScore(){
-  let inningScore = 0;
-  return function(){
-    return inningScore += inning();
-  }
+// function getInScore(){
+//   let inningScore = 0;
+//   return function(){
+//     return inningScore += inning();
+//   }
   
-}
+// }
 
 // eslint-disable-next-line no-unused-vars
-const inNum = inningNum();
-const home = getInScore();
-const away = getInScore();
-function scoreboard(getInScore, inNum) {
+let HomeScore = 0
+let AwayScore = 0
+function scoreboard(getInningScoreCB, inningCB, inningNum){
   let gameScore = [];
-  gameScore.push(getInScore);
-  for(let i = 0; i < inNum; i++){
-    if(inNum <= 9){
-      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}`)
-    }else if (inNum > 9 && home === away){
-      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}, This game will require more Innings`)
-    }else if(inNum > 9 && home > away || home < away){
-      console.log(`Inning ${inNum()} : Awayteam ${away()} - Hometeam ${home()}, Final Score `)
-
-    }
+ 
+  // gameScore.push.getInningScore.Away;
+  // gameScore.push.getInningScore.Home;
+  for(let i = 0; i < inningNum; i++){ 
+    const currentScore = getInningScoreCB(inningCB);
+  HomeScore = HomeScore + currentScore.Home;
+  AwayScore = AwayScore + currentScore.Away;
+  gameScore.push(`Inning ${i + 1} : Awayteam ${AwayScore} - Hometeam ${HomeScore}`);
+    if (inningNum === 9 && HomeScore === AwayScore){
+     gameScore.push(`This game will require more Innings:  Awayteam ${AwayScore} - Hometeam ${HomeScore} `)
+    } else {
+      gameScore.push(`Final Score: Awayteam ${AwayScore} - Hometeam ${HomeScore},`)
+  }
   }return gameScore;
 }
 
-console.log(scoreboard(getInningScore, 10));
-
+console.log(scoreboard(getInningScore, inning, 9));
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
 function foo(){
